@@ -3,6 +3,8 @@ Utility to track card "win percentages" defined by percentage win when played in
 
 Usage:python hearthstonecardanalyzer.py numberofdaysbacktoanalyze trackobot_username trackobot_apikey (hero)
 
+NOTE: WRITTEN IN PYTHON 3
+
 numberofdaystoanalyze determines how far back in your history the program should look. Must be positive integer.
 
 trackobot_username and trackobot_apikey should be copy-pasted from https://trackobot.com/profile/settings/api
