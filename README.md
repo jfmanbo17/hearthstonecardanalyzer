@@ -1,7 +1,7 @@
 # hearthstonecardanalyzer 
 Utility to track card "win percentages" defined by percentage win when played in a game in combination with track-o-bot
 
-Usage:python hearthstonecardanalyzer.py numberofdaysbacktoanalyze trackobot_username trackobot_apikey (hero)
+Usage:python cardanalyzer.py numberofdaysbacktoanalyze trackobot_username trackobot_apikey (hero)
 
 NOTE: WRITTEN IN PYTHON 3
 
