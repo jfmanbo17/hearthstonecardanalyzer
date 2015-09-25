@@ -51,7 +51,7 @@ else:
 	dontcheckclass=1
 dayincrement = datetime.timedelta(days=numdays)
 page=1
-print("page", page)
+print("Loading Page", page)
 rawinput=requests.get("https://trackobot.com/profile/history.json?username=" + username + "&token=" + key).text
 numpages=json.loads(rawinput)["meta"]["total_pages"]
 historylist=json.loads(rawinput)["history"]
@@ -59,7 +59,7 @@ historylist=json.loads(rawinput)["history"]
 
 while (page < numpages) & datecheck:
 	page += 1
-	print("page", page)
+	print("Loading Page", page)
 	trackourl="https://trackobot.com/profile.json?page=" + str(page) + "&username=" + username + "&token=" + key
 	rawinput=requests.get(trackourl).text
 	historylist=json.loads(rawinput)["history"]
@@ -73,10 +73,11 @@ for card in lossdict:
 	if card not in windict:
 		windict[card]=0
 
-print("games played:", gamesplayed)
-for card in windict:
-	print(card, float(windict[card])/(float(windict[card]+lossdict[card])))
+def percentValue(card):
+	return float(windict[card])/(float(windict[card]+lossdict[card]))
 
+max_width = max([len(card) for card in windict])
 
-		
-		
+print("Games played:", gamesplayed)
+for card in sorted(windict, key=percentValue, reverse = True):
+	print("| {0:<{col1}} | %6.2f%% |".format(card, col1 = max_width, col2 = 6) % (100 * percentValue(card)))
