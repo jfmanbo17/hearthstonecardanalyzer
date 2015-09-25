@@ -26,7 +26,7 @@ def doapage(gamesplayed,historylist,today,dayincrement,dontcheckclass,hero,win_t
 	for game in historylist:
 		gametime = datetime.datetime.strptime(game["added"],"%Y-%m-%dT%H:%M:%S.%fz")
 		if (gametime > (today - dayincrement)):
-			if (dontcheckclass | (hero == game["hero"])):
+			if (dontcheckclass | (hero.lower() == game["hero"].lower())):
 				gamesplayed += 1
 				if winfunc(game["result"]):
 					win_total += 1
