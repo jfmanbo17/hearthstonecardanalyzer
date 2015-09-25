@@ -21,8 +21,11 @@ def addcards(dictionary,game):
 		else:
 			dictionary[item] = 1
 
-def doapage(gamesplayed,historylist,today,dayincrement,hero,win_total,loss_total):
+def doapage(historylist,today,dayincrement,hero):
 	result=1
+	global gamesplayed
+	global win_total
+	global loss_total
 	for game in historylist:
 		gametime = datetime.datetime.strptime(game["added"],"%Y-%m-%dT%H:%M:%S.%fz")
 		if (gametime > (today - dayincrement)):
@@ -36,13 +39,14 @@ def doapage(gamesplayed,historylist,today,dayincrement,hero,win_total,loss_total
 					addcards(lossdict,game)
 		else: 
 			result=0
-	return (result, gamesplayed, win_total, loss_total)
+	return (result)
 
 win_total=0
 loss_total=0
+gamesplayed=0
+
 windict={}		
 lossdict={}
-gamesplayed=0
 today = datetime.datetime.now()
 numdays = int(sys.argv[1])
 username = sys.argv[2]
@@ -58,7 +62,7 @@ print("Loading Page", page)
 rawinput=requests.get("https://trackobot.com/profile/history.json?username=" + username + "&token=" + key).text
 numpages=json.loads(rawinput)["meta"]["total_pages"]
 historylist=json.loads(rawinput)["history"]
-(datecheck,gamesplayed,win_total,loss_total)=doapage(gamesplayed,historylist,today,dayincrement,hero,win_total,loss_total)
+(datecheck)=doapage(historylist,today,dayincrement,hero)
 
 while (page < numpages) & datecheck:
 	page += 1
@@ -66,7 +70,7 @@ while (page < numpages) & datecheck:
 	trackourl="https://trackobot.com/profile.json?page=" + str(page) + "&username=" + username + "&token=" + key
 	rawinput=requests.get(trackourl).text
 	historylist=json.loads(rawinput)["history"]
-	(datecheck,gamesplayed)=doapage(gamesplayed,historylist,today,dayincrement,hero,win_total,loss_total)
+	(datecheck)=doapage(historylist,today,dayincrement,hero)
 
 for card in windict:
 	if card not in lossdict:
